@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController
@@ -25,6 +26,8 @@ public class PlayerController
 
         this.playerScriptableObject = playerScriptableObject;
         this.playerScriptableObject.KeysEquipped = 0;
+
+        LightSwitchView.lightSwitch += OnLightSwitchToggled;
 
         playerState = PlayerState.InDark;
     }
@@ -72,5 +75,12 @@ public class PlayerController
 
         rotation = playerRigidbody.rotation * Quaternion.Euler(lookRotation);
         position = (transform.position) + (velocity * movement) * Time.fixedDeltaTime;
+    }
+    private void OnLightSwitchToggled()
+    {
+        if (PlayerState == PlayerState.InDark)
+            PlayerState = PlayerState.None;
+        else
+            PlayerState = PlayerState.InDark;
     }
 }

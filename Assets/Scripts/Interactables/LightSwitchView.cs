@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static LightSwitchView;
@@ -6,16 +7,16 @@ public class LightSwitchView : MonoBehaviour, IInteractable
 {
     [SerializeField] private List<Light> lightsources = new List<Light>();
     private SwitchState currentState;
-    public delegate void LightSwitchDelegate();
-    public static event LightSwitchDelegate lightToggled;
+    
+    public static event Action LightToggledAction;
 
-    private void OnEnable() => lightToggled += onLightSwitch;
+    private void OnEnable() => LightToggledAction += onLightSwitch;
 
-    private void OnDisable() => lightToggled -= onLightSwitch;
+    private void OnDisable() => LightToggledAction -= onLightSwitch;
 
     private void Start() => currentState = SwitchState.Off;
 
-    public void Interact() => lightToggled?.Invoke();
+    public void Interact() => LightToggledAction?.Invoke();
 
     private void toggleLights()
     {
